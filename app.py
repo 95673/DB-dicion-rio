@@ -1,5 +1,4 @@
-            )["choices"][0]["message"]["content"].strip()
-  """
+"""
 DB-Dicionário — Backend USSD
 Compatível com o formato de webhook da Africa's Talking.
 
@@ -326,4 +325,3 @@ def ussd():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-  
