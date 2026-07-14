@@ -44,27 +44,41 @@ def truncar(texto: str) -> str:
     return texto if len(texto) <= MAX_LEN else texto[: MAX_LEN - 3] + "..."
 
 
+import unicodedata
+
+
+def normalizar(texto: str) -> str:
+    """Remove acentos, espaços extras e coloca em minúsculas para comparação tolerante."""
+    texto = texto.strip().lower()
+    texto = unicodedata.normalize("NFKD", texto)
+    texto = "".join(c for c in texto if not unicodedata.combining(c))
+    return texto
+
+
 def buscar_en_pt(palavra: str):
     conn = get_conn()
     cur = conn.cursor()
-    cur.execute(
-        "SELECT * FROM words WHERE lower(word_en) = lower(?) LIMIT 1", (palavra.strip(),)
-    )
-    row = cur.fetchone()
+    termo = normalizar(palavra)
+    cur.execute("SELECT * FROM words")
+    resultado = None
+    for row in cur.fetchall():
+        if normalizar(row["word_en"]) == termo:
+            resultado = row
+            break
     conn.close()
-    return row
+    return resultado
 
 
 def buscar_pt_en(palavra: str):
     """Busca aproximada dentro do campo trad_pt (pode ter várias glosas separadas por vírgula)."""
     conn = get_conn()
     cur = conn.cursor()
-    termo = palavra.strip().lower()
+    termo = normalizar(palavra.replace("-", " "))
     cur.execute("SELECT * FROM words")
     resultado = None
     for row in cur.fetchall():
-        glosas = [g.strip().lower() for g in row["trad_pt"].replace("-", " ").split(",")]
-        if termo in glosas or any(termo == g for g in glosas):
+        glosas = [normalizar(g.replace("-", " ")) for g in row["trad_pt"].split(",")]
+        if termo in glosas:
             resultado = row
             break
     conn.close()
