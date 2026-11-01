@@ -1,0 +1,21 @@
+{
+  "descricao": "Contactos e códigos USSD da Vodacom usados nas respostas. Para mudar um código, altera só aqui: todas as FAQs que usam o nome entre chavetas, como {MPESA}, ficam actualizadas.",
+  "contactos": {
+    "LINHA_APOIO": "100",
+    "WHATSAPP": "841110111"
+  },
+  "codigos": {
+    "MPESA": "*150#",
+    "MENU": "*111#",
+    "SALDO": "*100#",
+    "BONUS": "*100*04#",
+    "RECARGA": "*130*01*código_da_recarga#",
+    "CALL_ME_BACK": "*140*número#",
+    "PACOTES_INTERNET": "*162#",
+    "PACOTES_BOM_DIA": "*126#",
+    "PACOTES_ROAMING": "*125#",
+    "PACOTES_MEU_NUMERO_1": "*161#",
+    "PACOTES_DEKETA": "*111*7#",
+    "SOPRATI": "*109#"
+  }
+}
